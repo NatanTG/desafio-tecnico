@@ -1,0 +1,45 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  @@map("users")
+  id                String     @id @default(uuid())
+  name              String 
+  email             String @unique
+  password          String
+  role              UserRole
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+}
+
+enum UserRole {
+  ADMIN
+  ANALYST
+}
+
+model Agency {
+  @@map("agencys")
+  id                String   @id @default(uuid())
+  name              String @unique
+  status            AgencyStatus
+  cnpj              String @unique
+  stateRegistration String @unique
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+}
+
+enum AgencyStatus {
+  @@map("status")
+  ACTIVE
+  INACTIVE
+  PENDING
+}

@@ -1,0 +1,8 @@
+[x]API funcionando
+    []Implementar docker
+    []Implementar postgresql
+    []Verificar as rotas /api/agency, tentar deixar /agency direto
+    []Aplicar Jest
+
+[]Começar front
+    
