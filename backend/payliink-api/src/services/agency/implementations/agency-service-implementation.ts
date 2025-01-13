@@ -13,67 +13,56 @@ export class AgencyServiceImplementation implements AgencyService{
     return new AgencyServiceImplementation(agencyRepository);
   }
     
-    public async getAllAgencies(): Promise<GetAgencyDTO> {
-        const allAgencys = await this.repository.getAllAgencies();
-        const agencys = allAgencys.agency.map((a) => {
-          return {
-            id: a.id,  
-            name: a.name, 
-            status: a.status,
-            cnpj: a.cnpj,
-            stateRegistration: a.stateRegistration,
-            createdAt: a.createdAt.toString(),  
-            updatedAt: a.updatedAt.toString(),  
-          };
-        });
-      
-        const output: GetAgencyDTO = {
-          agency: agencys,  
-        };
-      
-        return output;
-      }
-      
-
-      public async getAgencyById(id: string): Promise<GetAgencyByIdDTO | null> {
-        const agencyById = await this.repository.getAgencyById(id);
-        return agencyById || null;
-      }
- 
-    public async createAgency(agencyData: CreateAgencyDTO): Promise<GetAgencyDTO> {
-      const createdAgency = await this.repository.createAgency(agencyData);
-  
-      return createdAgency;
-    }
-
-    public async updateAgency(id: string, agencyData: UpdateAgencyDTO): Promise<GetAgencyByIdDTO | null> {
-      const updatedAgency = await this.repository.updateAgency(id, agencyData);
-      
-      if (!updatedAgency) {
-        return null; 
-      }
-  
+  public async getAllAgencies(): Promise<GetAgencyDTO> {
+    const allAgencys = await this.repository.getAllAgencies();
+    const agencys = allAgencys.agency.map((a) => {
       return {
-        agency: {
-          id: updatedAgency.agency.id,
-          name: updatedAgency.agency.name,
-          status: updatedAgency.agency.status,
-          cnpj: updatedAgency.agency.cnpj,
-          stateRegistration: updatedAgency.agency.stateRegistration,
-          createdAt: updatedAgency.agency.createdAt.toString(),
-          updatedAt: updatedAgency.agency.updatedAt.toString(),
-        },
+        id: a.id,
+        name: a.name,
+        status: a.status,
+        cnpj: a.cnpj,
+        stateRegistration: a.stateRegistration,
+        createdAt: a.createdAt.toString(),
+        updatedAt: a.updatedAt.toString(),
       };
-    }
+    });
 
-    public async deleteAgency(id: string): Promise<void> {
-      const agency = await this.repository.getAgencyById(id);
-  
-      if (!agency) {
-        throw new Error("Agency not found");  
-      }
-  
-      await this.repository.deleteAgency(id); 
-    } 
+    const output: GetAgencyDTO = {
+      agency: agencys,
+    };
 
+    return output;
+  }
+
+  public async getAgencyById(id: string): Promise<GetAgencyByIdDTO | null> {
+    const agencyById = await this.repository.getAgencyById(id);
+    return agencyById || null;
+  }
+
+  public async createAgency(agencyData: CreateAgencyDTO): Promise<GetAgencyDTO> {
+    const createdAgency = await this.repository.createAgency(agencyData);
+    return createdAgency;
+  }
+
+  public async updateAgency(id: string, agencyData: UpdateAgencyDTO): Promise<GetAgencyByIdDTO | null> {
+    const updatedAgency = await this.repository.updateAgency(id, agencyData);
+    return !updatedAgency
+      ? null
+      : {
+          agency: {
+            id: updatedAgency.agency.id,
+            name: updatedAgency.agency.name,
+            status: updatedAgency.agency.status,
+            cnpj: updatedAgency.agency.cnpj,
+            stateRegistration: updatedAgency.agency.stateRegistration,
+            createdAt: updatedAgency.agency.createdAt.toString(),
+            updatedAt: updatedAgency.agency.updatedAt.toString(),
+          },
+        };
+  }
+
+  public async deleteAgency(id: string): Promise<void> {
+    const agency = await this.repository.getAgencyById(id);
+    !agency ? Promise.reject(new Error("Agency not found")) : await this.repository.deleteAgency(id);
+  }
 }

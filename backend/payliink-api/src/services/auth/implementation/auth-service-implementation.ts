@@ -7,21 +7,18 @@ export class AuthServiceImplementation implements AuthService {
   constructor(private repository: UserRepository) {}
 
   public async login(email: string, password: string): Promise<string | null> {
-    const userDTO = await this.repository.getUserByEmail(email);
+    try {
+      const userDTO = await this.repository.getUserByEmail(email);
 
-    if (!userDTO || userDTO.user.length === 0) {
-      return null; 
-    }
-
-    const user = userDTO.user[0];
-
-    const isPasswordValid = await bcrypt.compare(password, user.password);
-
-    if (!isPasswordValid) {
+      return !userDTO || userDTO.user.length === 0
+        ? null
+        : await bcrypt.compare(password, userDTO.user[0].password)
+          ? this.generateToken(userDTO.user[0].id)
+          : null;
+    } catch (error) {
+      console.error("Error during login:", error);
       return null;
     }
-
-    return this.generateToken(user.id);
   }
 
   public async validateToken(token: string): Promise<string | null> {
@@ -30,6 +27,7 @@ export class AuthServiceImplementation implements AuthService {
       const payload = jwt.verify(token, secretKey) as { userId: string };
       return payload.userId;
     } catch (error) {
+      console.error("Invalid token:", error);
       return null;
     }
   }

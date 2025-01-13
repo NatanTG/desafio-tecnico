@@ -1,9 +1,6 @@
 import { UserService } from "../user-service";
 import { CreateUserDTO } from "../../../dtos/input/user/create-user-dto";
-import { UpdateUserDTO } from "../../../dtos/input/user/update-user-dto";
-import { GetUserDTO } from "../../../dtos/output/user/get-user-dto";
 import { GetUserByIdDTO } from "../../../dtos/output/user/get-user-by-id-dto";
-import { User } from "@prisma/client"; 
 import { UserRepository } from "../../../repositories/user/user-repositorie";
 import { AuthService } from "../../auth/auth-service";
 
@@ -18,29 +15,31 @@ export class UserServiceImplementation implements UserService {
   }
 
   public async login(email: string, password: string): Promise<string | null> {
-    return this.authService.login(email, password);
+    try {
+      return await this.authService.login(email, password);
+    } catch (error) {
+      console.error("Error during login:", error);
+      return null;
+    }
   }
 
-  
+  public async createUser(userData: CreateUserDTO): Promise<GetUserByIdDTO | null> {
+    try {
+      const createdUser = await this.repository.createUser(userData);
 
-  
-  public async createUser(userData: CreateUserDTO): Promise<GetUserByIdDTO> {
-    const createdUser = await this.repository.createUser(userData);
-    return {
-          id: createdUser.id,
-          name: createdUser.name,
-          email: createdUser.email,
-          role: createdUser.role,
-          createdAt: createdUser.createdAt.toString(),
-          updatedAt: createdUser.updatedAt.toString(),
-    };
-
-    
+      return createdUser 
+        ? {
+            id: createdUser.id,
+            name: createdUser.name,
+            email: createdUser.email,
+            role: createdUser.role,
+            createdAt: createdUser.createdAt.toString(),
+            updatedAt: createdUser.updatedAt.toString(),
+          }
+        : null;
+    } catch (error) {
+      console.error("Error creating user:", error);
+      return null;
+    }
   }
-
-
-
-
-
-
 }

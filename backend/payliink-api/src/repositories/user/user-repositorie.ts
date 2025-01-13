@@ -4,6 +4,6 @@ import { GetUserByIdDTO } from "../../dtos/output/user/get-user-by-id-dto";
 import { GetUserDTO } from "../../dtos/output/user/get-user-dto";
 
 export interface UserRepository {
-    createUser(createUserDTO: CreateUserDTO): Promise<GetUserByIdDTO>;  
+    createUser(createUserDTO: CreateUserDTO): Promise<GetUserByIdDTO | null>;  
     getUserByEmail(email: string): Promise<GetUserDTO | null>;
 }

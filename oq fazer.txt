@@ -1,8 +1,15 @@
 [x]API funcionando
-    []Aplicar tratamento de erros
+    [x]Aplicar tratamento de erros
+    [x]testar rotas com o analyst
     []Implementar docker
     []Implementar postgresql
-    []Verificar as rotas /api/agency, tentar deixar /agency direto
-    []Aplicar Jest
+    [x]Verificar as rotas /api/agency, tentar deixar /agency direto
+    []Aplicar Jest - incompleto
 
 []Começar front
+
+
+
+erros
+[]201 quando da null
+[]404 qunado da delete

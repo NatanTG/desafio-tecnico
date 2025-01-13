@@ -21,21 +21,19 @@ export class AgencyController {
     try {
       const agency = await this.agencyService.createAgency(req.body);
       res.status(201).json(agency);
-    } catch (error) {
-      res.status(500).json({ error: "500 Internal Error" });
+    } catch (error: any) {
+      res.status(500).json({ error: error.message || "500 Internal Error" });
     }
   }
 
   public async getAgencyById(req: Request, res: Response): Promise<void> {
     try {
       const agency = await this.agencyService.getAgencyById(req.params.id);
-      if (agency) {
-        res.status(200).json(agency);
-      } else {
-        res.status(404).json({ message: "Agency not found" });
-      }
-    } catch (error) {
-      res.status(500).json({ error: "500 Internal Error" });
+      agency
+        ? res.status(200).json(agency)
+        : res.status(404).json({ message: "Agency not found" });
+    } catch (error: any) {
+      res.status(500).json({ error: error.message || "500 Internal Error" });
     }
   }
 
@@ -44,38 +42,39 @@ export class AgencyController {
       const { id } = req.params;
       const agencyData = req.body;
 
-      if (!id) {
-        res.status(400).json({ message: "Agency ID is required" });
-        return;
-      }
-
-      const updatedAgency = await this.agencyService.updateAgency(id, agencyData);
-
-      if (!updatedAgency) {
-        res.status(404).json({ message: "Agency not found" });
-        return;
-      }
-
-      res.status(200).json(updatedAgency);
-    } catch (error) {
-      res.status(500).json({ error: "500 Internal Error" });
+      !id
+        ? res.status(400).json({ message: "Agency ID is required" })
+        : await this.agencyService.updateAgency(id, agencyData)
+            .then(updatedAgency => {
+              !updatedAgency
+                ? res.status(404).json({ message: "Agency not found" })
+                : res.status(200).json(updatedAgency);
+            })
+            .catch(error => {
+              throw new Error(error);
+            });
+    } catch (error: any) {
+      res.status(500).json({ error: error.message || "500 Internal Error" });
     }
   }
 
   public async deleteAgency(req: Request, res: Response): Promise<void> {
+    const { id } = req.params;
+
+    if (!id) {
+      res.status(400).json({ message: "Agency ID is required" });
+      return 
+    }
+
     try {
-      const { id } = req.params;
-
-      if (!id) {
-        res.status(400).json({ message: "Agency ID is required" });
-        return;
-      }
-
-     
       const deletedAgency = await this.agencyService.deleteAgency(id);
+      if (deletedAgency == null) {
+        res.status(404).json({ message: "Agency not found" });
+        return 
+      }
       res.status(200).json({ message: "Agency deleted successfully" });
-    } catch (error) {
-      res.status(500).json({ error: "500 Internal Error" });
+    } catch (error: any) {
+      res.status(500).json({ error: error.message || "500 Internal Error" });
     }
   }
 }

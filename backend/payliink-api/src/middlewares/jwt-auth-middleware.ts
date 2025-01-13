@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
 
-export function JwtAuthMiddleware(req: Request, res: Response, next: NextFunction): void {
+export function JwtAuthMiddleware( req: Request, res: Response, next: NextFunction): void {
   const token = req.headers.authorization?.split(" ")[1];
 
   if (!token) {
@@ -11,7 +11,8 @@ export function JwtAuthMiddleware(req: Request, res: Response, next: NextFunctio
 
   try {
     const secretKey = process.env.JWT_SECRET || "your-secret-key";
-    jwt.verify(token, secretKey);
+    const decode = jwt.verify(token, secretKey);
+    req.user = decode; 
     next();
   } catch (error) {
     res.status(401).json({ message: "Invalid token" });

@@ -3,7 +3,8 @@ import express, { Express, Request, Response } from "express";
 
 export class ApiExpress implements Api {
     private constructor(readonly app: Express) {}
-    addRoute(method: "get" | "post" | "put" | "delete" | "patch", path: string, handler: (req: globalThis.Request, res: globalThis.Response) => void): void {
+
+    public addRoute(method: "get" | "post" | "put" | "delete" | "patch", path: string, handler: (req: globalThis.Request, res: globalThis.Response) => void): void {
         throw new Error("Method not implemented.");
     }
 
@@ -12,6 +13,7 @@ export class ApiExpress implements Api {
         app.use(express.json());
         return new ApiExpress(app);
     }
+    
 
     public addGetRoute(
         path: string,

@@ -1,7 +1,6 @@
 import { Request, Response } from "express";
 import { UserService } from "../../../services/user/user-service";
 
-
 export class UserController {
   constructor(private userService: UserService) {}
 
@@ -13,8 +12,8 @@ export class UserController {
     try {
       const user = await this.userService.createUser(req.body);
       res.status(201).json(user);
-    } catch (error) {
-      res.status(500).json({ error: "Nao foi possivel registrar o usuario" });
+    } catch (error: any) {
+      res.status(500).json({ error: error.message || "Nao foi possivel registrar o usuario" });
     }
   }
 
@@ -22,13 +21,12 @@ export class UserController {
     try {
       const { email, password } = req.body;
       const token = await this.userService.login(email, password);
-      if (!token) {
-        res.status(401).json({ error: "Invalid credentials" });
-        return;
-      }
-      res.json({ token });
-    } catch (error) {
-      res.status(500).json({ error: "Nao foi possivel registrar o usuario" });
+      
+      !token
+        ? res.status(401).json({ error: "Invalid credentials" })
+        : res.json({ token });
+    } catch (error: any) {
+      res.status(500).json({ error: error.message || "Nao foi possivel registrar o usuario" });
     }
   }
 }

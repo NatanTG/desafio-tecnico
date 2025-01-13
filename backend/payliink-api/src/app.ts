@@ -2,14 +2,14 @@ import express from "express";
 import { ApiExpress } from "./app/express/express";
 import { PrismaClient } from "@prisma/client";
 import routes from "./config/routes";
+import passport from "passport";
 
-const app = express();
 
 const prisma = new PrismaClient();
 
 const api = ApiExpress.build();
 api.app.use(express.json());
-
+api.app.use(passport.initialize());
 api.app.use("/api", routes);
 
 api.app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
