@@ -5,7 +5,6 @@ import routes from "./config/routes";
 const app = express();
 app.use(express.json());
 
-// Registrar as rotas
 app.use("/api", routes);
 
 const PORT = process.env.PORT || 3000;

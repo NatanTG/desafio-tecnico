@@ -8,10 +8,10 @@ const agencyRouter = Router();
 
 agencyRouter.use(JwtAuthMiddleware);
 
-agencyRouter.get("/", (req, res) => agencyController.getAllAgencies(req, res)); // Lista todas as agências
-agencyRouter.post("/", (req, res) => agencyController.createAgency(req, res)); // Adiciona uma nova agência
-agencyRouter.get("/:id", (req, res) => agencyController.getAgencyById(req, res)); // Exibe os detalhes de uma agência específica
-agencyRouter.put("/:id", (req, res) => agencyController.updateAgency(req, res)); // Atualiza as informações de uma agência
-agencyRouter.delete("/:id", (req, res) => agencyController.deleteAgency(req, res)); // Remove uma agência
+agencyRouter.get("/", (req, res) => agencyController.getAllAgencies(req, res)); 
+agencyRouter.post("/", (req, res) => agencyController.createAgency(req, res)); 
+agencyRouter.get("/:id", (req, res) => agencyController.getAgencyById(req, res));
+agencyRouter.put("/:id", (req, res) => agencyController.updateAgency(req, res)); 
+agencyRouter.delete("/:id", (req, res) => agencyController.deleteAgency(req, res));
 
 export default agencyRouter ;
