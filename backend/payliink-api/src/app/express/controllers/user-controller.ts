@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import { UserService } from "../../../services/user/user-service";
 
 export class UserController {
@@ -8,12 +8,13 @@ export class UserController {
     return new UserController(userService);
   }
 
-  public async register(req: Request, res: Response): Promise<void> {
+  public async register(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
       const user = await this.userService.createUser(req.body);
       res.status(201).json(user);
     } catch (error: any) {
-      res.status(500).json({ error: error.message || "Nao foi possivel registrar o usuario" });
+      console.error("Error registering user:", error);
+      next(error); 
     }
   }
 

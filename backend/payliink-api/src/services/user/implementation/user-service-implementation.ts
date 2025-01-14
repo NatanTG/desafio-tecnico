@@ -1,8 +1,8 @@
-import { UserService } from "../user-service";
 import { CreateUserDTO } from "../../../dtos/input/user/create-user-dto";
 import { GetUserByIdDTO } from "../../../dtos/output/user/get-user-by-id-dto";
 import { UserRepository } from "../../../repositories/user/user-repositorie";
 import { AuthService } from "../../auth/auth-service";
+import { UserService } from "../user-service";
 
 export class UserServiceImplementation implements UserService {
   constructor(
@@ -39,7 +39,7 @@ export class UserServiceImplementation implements UserService {
         : null;
     } catch (error) {
       console.error("Error creating user:", error);
-      return null;
+      throw new Error("Failed to create user.");
     }
   }
 }
