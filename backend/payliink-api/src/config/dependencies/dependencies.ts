@@ -6,6 +6,7 @@ import { UserRepositoryImplementation } from "../../repositories/user/implementa
 import { AgencyServiceImplementation } from "../../services/agency/implementations/agency-service-implementation";
 import { UserServiceImplementation } from "../../services/user/implementation/user-service-implementation";
 import { AuthServiceImplementation } from "../../services/auth/implementation/auth-service-implementation";
+import { JwtTokenProvider } from "../utils/auth/jwt-token-provider";
 const prisma = new PrismaClient();
 
 const agencyRepository = AgencyRepositoryImplementation.build(prisma);
@@ -14,11 +15,12 @@ const agencyService = AgencyServiceImplementation.build(agencyRepository);
 
 const agencyController = AgencyController.build(agencyService);
 
+const tokenProvider = JwtTokenProvider.build();
 
 
 const userRepository = UserRepositoryImplementation.build(prisma);
-const authService = new AuthServiceImplementation(userRepository);
+const authService =  AuthServiceImplementation.build(userRepository, tokenProvider);
 const userService = UserServiceImplementation.build(userRepository, authService);
 const userController = UserController.build(userService);
 
-export { prisma, agencyRepository, agencyService, agencyController, userRepository, userService, userController, authService  };
+export { prisma, agencyRepository, agencyService, agencyController, userRepository, userService, userController, authService, tokenProvider  };

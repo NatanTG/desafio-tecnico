@@ -10,7 +10,7 @@ export function JwtAuthMiddleware( req: Request, res: Response, next: NextFuncti
   }
 
   try {
-    const secretKey = process.env.JWT_SECRET || "your-secret-key";
+    const secretKey = process.env.JWT_SECRET || "VLFs5cFKepvUA8uwIZ51Z3P2B1QNYGEv8YoYAXd9TUY=";
     const decode = jwt.verify(token, secretKey);
     req.user = decode; 
     next();

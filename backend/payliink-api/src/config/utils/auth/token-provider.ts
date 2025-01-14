@@ -1,4 +1,4 @@
 export interface TokenProvider {
-    generateToken(payload: object, expiresIn: string): string;
-    verifyToken(token: string): object | null;
+    generateToken(userId: string): string;
+    validateToken(token: string): Promise<string | null> 
 }
