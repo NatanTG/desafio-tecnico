@@ -4,11 +4,13 @@
     []Implementar docker
     []Implementar postgresql
     [x]Verificar as rotas /api/agency, tentar deixar /agency direto
-    []Aplicar Jest - incompleto
 
-[]Começar front
-
-
+[x]Começar front
+[]Criar UI
+[]Consumir a API
+[]Aplicar SOLID e Injecao de depencia e inversao de controle
+[]Aplicar query params
+[]Aplicar JWT front
 
 erros
 []201 quando da null
