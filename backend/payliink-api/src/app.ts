@@ -9,7 +9,7 @@ import { prisma } from "./config/dependencies/dependencies";
 const api = ApiExpress.build();
 api.app.use(express.json());
 api.app.use(passport.initialize());
-api.app.use("/api",routes);
+api.app.use(routes);
 
 api.app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
     console.error(err.stack);
