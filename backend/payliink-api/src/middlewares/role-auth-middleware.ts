@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from "express";
 
 export const isAdmin = (req: Request, res: Response, next: NextFunction): void => {
   try {
-    console.log("Conteúdo de req.user:", req.user);
+  
 
     const user = req.user as { role: string };
 
