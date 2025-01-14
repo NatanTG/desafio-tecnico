@@ -68,7 +68,7 @@ export class AgencyController {
 
     try {
       const deletedAgency = await this.agencyService.deleteAgency(id);
-      if (deletedAgency == null) {
+      if (deletedAgency!) {
         res.status(404).json({ message: "Agency not found" });
         return 
       }
