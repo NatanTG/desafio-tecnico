@@ -3,9 +3,14 @@ import express, { Express, Request, Response } from "express";
 
 export class ApiExpress implements Api {
     private constructor(readonly app: Express) {}
+    
 
-    public addRoute(method: "get" | "post" | "put" | "delete" | "patch", path: string, handler: (req: globalThis.Request, res: globalThis.Response) => void): void {
-        throw new Error("Method not implemented.");
+    public addRoute(
+        method: "get" | "post" | "put" | "delete" | "patch",
+        path: string,
+        handler: (req: Request<any, any, any, any>, res: Response) => void
+    ): void {
+        this.app[method](path, handler);
     }
 
     public static build() {
@@ -13,25 +18,10 @@ export class ApiExpress implements Api {
         app.use(express.json());
         return new ApiExpress(app);
     }
-    
-
-    public addGetRoute(
-        path: string,
-        handler: (req: Request, res: Response) => void
-    ): void {
-        this.app.get(path, handler);
-    }
-
-    public addPostRoute(
-        path: string,
-        handler: (req: Request, res: Response) => void
-    ): void {
-        this.app.post(path, handler);
-    }
 
     public start(port: number) {
         this.app.listen(port, () => {
-            console.log("Server runing on port " + port);
+            console.log("Server running on port " + port);
             this.printRoutes();
         });
     }
