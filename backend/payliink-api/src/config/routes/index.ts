@@ -4,7 +4,7 @@ import userRouter from "./user-routes";
 
 const router = Router();
 
-router.use("/agency", agencyRouter);
-router.use( userRouter);
+router.use("/agency",agencyRouter);
+router.use(userRouter);
 
 export default router ;

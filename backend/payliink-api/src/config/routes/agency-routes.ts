@@ -1,9 +1,10 @@
 import { Router } from "express";
-import { JwtAuthMiddleware } from "../../middlewares/jwt-auth-middleware";
-import { AgencyController } from "../../app/express/controllers/agency-controller";
-import { agencyService } from "../dependencies/dependencies";
+
 import { passportMiddleware } from "../../middlewares/passport-middleware";
 import { isAdmin } from "../../middlewares/role-auth-middleware";
+import { AgencyController } from "../../app/express/controllers/agency-controller";
+import { JwtAuthMiddleware } from "../../middlewares/jwt-auth-middleware";
+import { agencyService } from "../dependencies/dependencies";
 
 const agencyController = AgencyController.build(agencyService);
 const agencyRouter = Router();
