@@ -27,7 +27,8 @@ export class UserController {
         ? res.status(401).json({ error: "Invalid credentials" })
         : res.json({ token });
     } catch (error: any) {
-      res.status(500).json({ error: error.message || "Nao foi possivel registrar o usuario" });
+      res.status(error.statusCode || 500).json({ error: error.message || "Nao foi possivel logar o usuario" });
     }
   }
-}
+
+};

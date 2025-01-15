@@ -1,5 +1,7 @@
+import { AppError } from "../../../config/utils/app-error";
 import { CreateUserDTO } from "../../../dtos/input/user/create-user-dto";
 import { GetUserByIdDTO } from "../../../dtos/output/user/get-user-by-id-dto";
+import { GetUserDTO } from "../../../dtos/output/user/get-user-dto";
 import { UserRepository } from "../../../repositories/user/user-repositorie";
 import { AuthService } from "../../auth/auth-service";
 import { UserService } from "../user-service";
@@ -16,18 +18,18 @@ export class UserServiceImplementation implements UserService {
 
   public async login(email: string, password: string): Promise<string | null> {
     try {
-      return await this.authService.login(email, password);
-    } catch (error) {
+      const token = await this.authService.login(email, password);
+      return token ? token : (() => { throw new AppError("Invalid credentials", 401); })(); 
+    } catch (error: any) {
       console.error("Error during login:", error);
-      return null;
+      throw error instanceof AppError ? error : new AppError("Failed to log in", 500); 
     }
   }
 
   public async createUser(userData: CreateUserDTO): Promise<GetUserByIdDTO | null> {
     try {
       const createdUser = await this.repository.createUser(userData);
-
-      return createdUser 
+      return createdUser
         ? {
             id: createdUser.id,
             name: createdUser.name,
@@ -36,10 +38,10 @@ export class UserServiceImplementation implements UserService {
             createdAt: createdUser.createdAt.toString(),
             updatedAt: createdUser.updatedAt.toString(),
           }
-        : null;
-    } catch (error) {
+        : (() => { throw new AppError("User creation failed", 400); })(); 
+    } catch (error: any) {
       console.error("Error creating user:", error);
-      throw new Error("Failed to create user.");
+      throw error instanceof AppError ? error : new AppError("Failed to create user", 500);
     }
   }
 }

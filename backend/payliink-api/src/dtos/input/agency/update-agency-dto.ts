@@ -18,6 +18,10 @@ export class UpdateAgencyDTO {
   @IsString()
   public readonly stateRegistration: string;
 
+  @IsOptional()
+  @IsString()
+  public readonly founded: string;
+
 }
 
 

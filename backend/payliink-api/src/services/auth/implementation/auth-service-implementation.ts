@@ -1,11 +1,10 @@
 import { TokenProvider } from "../../../config/utils/auth/token-provider";
 import { UserRepository } from "../../../repositories/user/user-repositorie";
 import { AuthService } from "../auth-service";
-import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken";
+
 
 export class AuthServiceImplementation implements AuthService {
-  constructor(private readonly repository: UserRepository, private readonly tokenProvider: TokenProvider ) {}
+  constructor(private readonly repository: UserRepository, private readonly tokenProvider: TokenProvider) {}
 
   public static build(repository: UserRepository, tokenProvider: TokenProvider): AuthService {
     return new AuthServiceImplementation(repository, tokenProvider);
@@ -13,17 +12,13 @@ export class AuthServiceImplementation implements AuthService {
 
   public async login(email: string, password: string): Promise<string | null> {
     try {
-      const userDTO = await this.repository.getUserByEmail(email);
+      const token = await this.repository.authenticateUser(email, password, this.tokenProvider);
 
-      return !userDTO || userDTO.user.length === 0
-        ? null
-        : await bcrypt.compare(password, userDTO.user[0].password)
-          ? this.tokenProvider.generateToken(userDTO.user[0].id)
-          : null;
+      return token ? token : null;
     } catch (error) {
       console.error("Error during login:", error);
-      return null;
+
+      throw new Error(error instanceof Error ? `Login failed: ${error.message}` : 'An unknown error occurred during the login process.');
     }
   }
-
 }

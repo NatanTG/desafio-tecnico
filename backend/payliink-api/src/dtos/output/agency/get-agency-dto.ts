@@ -7,6 +7,7 @@ export type GetAgencyDTO = {
     status: AgencyStatus;
     cnpj: string;
     stateRegistration: string;
+    founded: string;
     createdAt: string;
     updatedAt: string;
   }[];

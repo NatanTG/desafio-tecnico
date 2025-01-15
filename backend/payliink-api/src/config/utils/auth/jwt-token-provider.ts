@@ -23,4 +23,5 @@ export class JwtTokenProvider implements TokenProvider {
         const secretKey = process.env.JWT_SECRET || "VLFs5cFKepvUA8uwIZ51Z3P2B1QNYGEv8YoYAXd9TUY=";
         return jwt.sign({ userId }, secretKey, { expiresIn: "1h" });
       }
+
 }

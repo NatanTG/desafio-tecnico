@@ -19,5 +19,9 @@ export class CreateAgencyDTO {
   @IsString()
   public readonly stateRegistration: string;
 
+  @IsNotEmpty()
+  @IsString()
+  public readonly founded: string;
+
 }
   

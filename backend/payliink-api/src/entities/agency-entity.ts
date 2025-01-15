@@ -6,6 +6,7 @@ export type AgencyProps = {
   status: AgencyStatus;
   cnpj: string;
   stateRegistration: string;
+  founded: string;
 }
 
 
@@ -13,13 +14,14 @@ export type AgencyProps = {
 export class AgencyEntity {
   private constructor(readonly props: AgencyProps){}
 
-  public static create(name: string, status: AgencyStatus, cnpj: string, stateRegistration: string){
+  public static create(name: string, status: AgencyStatus, cnpj: string, stateRegistration: string, founded: string): AgencyEntity {
       return new AgencyEntity({
         id: crypto.randomUUID().toString(),
         name,
         status,
         cnpj,
-        stateRegistration
+        stateRegistration,
+        founded,
         
       })
   }
@@ -38,5 +40,8 @@ export class AgencyEntity {
   }
   public get stateRegistration(){
     return this.props.stateRegistration;
+  }
+  public get founded(){
+    return this.props.founded;
   }
 }

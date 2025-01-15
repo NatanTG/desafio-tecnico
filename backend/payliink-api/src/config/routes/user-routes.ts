@@ -5,6 +5,20 @@ import { userService } from "../dependencies/dependencies";
 const userController = UserController.build(userService);
 const userRouter = Router();
 
-userRouter.post("/register", (req, res, next) => userController.register(req, res, next)); 
-userRouter.post("/login", (req, res) => userController.login(req, res)); 
-export default userRouter ;
+userRouter.post("/register", async (req, res, next) => {
+  try {
+    await userController.register(req, res, next);
+    } catch (error) {  
+    next(error);  
+  }
+});
+
+userRouter.post("/login", async (req, res, next) => {
+  try {
+    await userController.login(req, res);  
+  } catch (error) {
+    next(error);
+  }
+});
+
+export default userRouter;

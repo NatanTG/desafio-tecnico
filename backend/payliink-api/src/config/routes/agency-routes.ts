@@ -11,10 +11,49 @@ const agencyRouter = Router();
 
 agencyRouter.use(JwtAuthMiddleware);
 
-agencyRouter.get("/", (req, res) => agencyController.getAllAgencies(req, res)); 
-agencyRouter.post("/", (req, res) => agencyController.createAgency(req, res)); 
-agencyRouter.get("/:id", (req, res) => agencyController.getAgencyById(req, res));
-agencyRouter.put("/:id", (req, res) => agencyController.updateAgency(req, res)); 
-agencyRouter.delete("/:id",passportMiddleware, isAdmin, (req, res,) => agencyController.deleteAgency(req, res));
+agencyRouter.get("/", async (req, res) => {
+  try {
+    await agencyController.getAllAgencies(req, res);
+  } catch (error) {
+    console.error("Error getting all agencies:", error);
+    res.status(500).json({ message: "An error occurred while fetching all agencies." });
+  }
+});
 
-export default agencyRouter ;
+agencyRouter.post("/", async (req, res) => {
+  try {
+    await agencyController.createAgency(req, res);
+  } catch (error) {
+    console.error("Error creating agency:", error);
+    res.status(500).json({ message: "An error occurred while creating the agency." });
+  }
+});
+
+agencyRouter.get("/:id", async (req, res) => {
+  try {
+    await agencyController.getAgencyById(req, res);
+  } catch (error) {
+    console.error(`Error getting agency with ID ${req.params.id}:`, error);
+    res.status(500).json({ message: `An error occurred while fetching agency with ID ${req.params.id}.` });
+  }
+});
+
+agencyRouter.put("/:id", async (req, res) => {
+  try {
+    await agencyController.updateAgency(req, res);
+  } catch (error) {
+    console.error(`Error updating agency with ID ${req.params.id}:`, error);
+    res.status(500).json({ message: `An error occurred while updating agency with ID ${req.params.id}.` });
+  }
+});
+
+agencyRouter.delete("/:id", passportMiddleware, isAdmin, async (req, res) => {
+  try {
+    await agencyController.deleteAgency(req, res);
+  } catch (error) {
+    console.error(`Error deleting agency with ID ${req.params.id}:`, error);
+    res.status(500).json({ message: `An error occurred while deleting agency with ID ${req.params.id}.` });
+  }
+});
+
+export default agencyRouter;
