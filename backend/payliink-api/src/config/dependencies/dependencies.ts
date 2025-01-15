@@ -1,7 +1,7 @@
 import { PrismaClient } from "@prisma/client";
 import { AgencyController } from "../../app/express/controllers/agency-controller";
 import { UserController } from "../../app/express/controllers/user-controller";
-import { AgencyRepositoryImplementation } from "../../repositories/agency/implementations/agency-repositorie-impl";
+import { AgencyRepositoryImplementation } from "../../repositories/agency/implementations/agency-repositorie-implementation";
 import { UserRepositoryImplementation } from "../../repositories/user/implementation/user-repositorie-implementation";
 import { AgencyServiceImplementation } from "../../services/agency/implementations/agency-service-implementation";
 import { UserServiceImplementation } from "../../services/user/implementation/user-service-implementation";

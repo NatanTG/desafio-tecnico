@@ -16,7 +16,7 @@ export function UserEntry() {
   };
 
   return (
-    <div className="w-full h-screen bg-cover bg-center flex items-center justify-center" style={{ backgroundImage: "url('./public/caraguatatuba.jpg')" }}>
+    <div className="w-full h-screen bg-cover bg-center flex items-center justify-center" style={{ backgroundImage: "url('./public/assets/praia.jpg')" }}>
       <Card className="bg-white bg-opacity-90 shadow-2xl rounded-3xl w-[400px]">
         <Tabs value={activeTab} onValueChange={setActiveTab}>
           <TabsList className="flex justify-around bg-gray-100 rounded-t-3xl p-4">

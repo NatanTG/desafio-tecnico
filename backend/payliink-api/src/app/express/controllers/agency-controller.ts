@@ -51,7 +51,7 @@ export class AgencyController {
       !id
         ? res.status(400).json({ message: "Agency ID is required" })
         : await this.agencyService.updateAgency(id, agencyData).then(updatedAgency =>
-            updatedAgency
+            updatedAgency !== null && updatedAgency !== undefined
               ? res.status(200).json(updatedAgency)
               : res.status(404).json({ message: "Agency not found" })
           ).catch((error) => {

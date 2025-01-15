@@ -36,22 +36,9 @@ export class AgencyServiceImplementation implements AgencyService {
     return await this.repository.createAgency(agencyData);
   }
 
-  public async updateAgency(id: string, agencyData: UpdateAgencyDTO): Promise<GetAgencyByIdDTO | null> {
+  public async updateAgency(id: string, agencyData: UpdateAgencyDTO): Promise<void> {
     const updatedAgency = await this.repository.updateAgency(id, agencyData);
-    return updatedAgency
-      ? {
-          agency: {
-            id: updatedAgency.agency.id,
-            name: updatedAgency.agency.name,
-            status: updatedAgency.agency.status,
-            cnpj: updatedAgency.agency.cnpj,
-            stateRegistration: updatedAgency.agency.stateRegistration,
-            founded: updatedAgency.agency.founded.toString(),
-            createdAt: updatedAgency.agency.createdAt.toString(),
-            updatedAt: updatedAgency.agency.updatedAt.toString(),
-          },
-        }
-      : null; 
+   
   }
 
   public async deleteAgency(id: string): Promise<void> {

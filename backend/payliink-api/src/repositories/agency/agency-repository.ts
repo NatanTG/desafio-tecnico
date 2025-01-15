@@ -7,6 +7,6 @@ export interface AgencyRepository {
     getAllAgencies(): Promise<GetAgencyDTO>; 
     getAgencyById(id: string): Promise<GetAgencyByIdDTO | null>;
     createAgency(createAgencyDTO: CreateAgencyDTO): Promise<GetAgencyDTO>;  
-    updateAgency(id: string, updateAgencyDTO: UpdateAgencyDTO): Promise<GetAgencyByIdDTO | null>; 
+    updateAgency(id: string, updateAgencyDTO: UpdateAgencyDTO): Promise<void>; 
     deleteAgency(id: string): Promise<void>;  
 }

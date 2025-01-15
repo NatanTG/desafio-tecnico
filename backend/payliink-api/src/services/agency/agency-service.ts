@@ -8,6 +8,6 @@ export interface AgencyService {
   getAllAgencies(): Promise<GetAgencyDTO>;  
   getAgencyById(id: string): Promise<GetAgencyByIdDTO | null>; 
   createAgency(agencyData: CreateAgencyDTO): Promise<GetAgencyDTO>; 
-  updateAgency(id: string, agencyData: UpdateAgencyDTO): Promise<GetAgencyByIdDTO | null>; 
+  updateAgency(id: string, agencyData: UpdateAgencyDTO): Promise<void>; 
   deleteAgency(id: string): Promise<void>;  
 }

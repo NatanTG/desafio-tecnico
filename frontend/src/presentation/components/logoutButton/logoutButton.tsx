@@ -13,7 +13,7 @@ export function LogoutButton() {
 
   return (
     <Button
-      className="w-full rounded-full bg-red-500 text-white hover:bg-red-400 transition-colors duration-200"
+      className="rounded-full bg-red-500 text-white hover:bg-red-400 transition-colors duration-200"
       onClick={handleLogout}
     >
       Sair
