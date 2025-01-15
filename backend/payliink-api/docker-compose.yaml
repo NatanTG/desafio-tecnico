@@ -1,0 +1,35 @@
+services:
+  payliink-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/app
+    environment:
+      - NODE_ENV=development
+      - PORT=3000
+      - DATABASE_URL=postgres://postgres:50913002@db:5432/payliink
+      - JWT_SECRET=secret
+    depends_on:
+      - db
+    networks:
+      - payliink-network
+
+  db:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 50913002
+      POSTGRES_DB: payliink
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - payliink-network
+networks:
+  payliink-network: {}
+volumes:
+  pgdata: {}

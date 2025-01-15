@@ -1,7 +1,6 @@
 import { PrismaClient, Prisma } from '@prisma/client';
 import { CreateUserDTO } from '../../../dtos/input/user/create-user-dto';
 import { GetUserByIdDTO } from '../../../dtos/output/user/get-user-by-id-dto';
-import { GetUserDTO } from '../../../dtos/output/user/get-user-dto';
 import bcrypt from 'bcryptjs';
 import { AppError } from '../../../config/utils/app-error';
 import { UserRepository } from '../user-repositorie';

@@ -20,9 +20,10 @@ const AgencyList = () => {
   useEffect(() => {
     if (shouldRefetch) {
       refetch();
+      
       setShouldRefetch(false); 
     }
-  }, [shouldRefetch, refetch]);
+  }, [isLoading,shouldRefetch, refetch]);
 
   useEffect(() => {
     let filtered = agencies || [];
